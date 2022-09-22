@@ -24,6 +24,7 @@ function onSearch(e) {
   refs.loadMoreBtn.disabled = true;
 
   pixabayApiService.query = e.currentTarget.elements.searchQuery.value.trim();
+  e.currentTarget.elements.searchQuery.value = '';
 
   if (pixabayApiService.query) {
     pixabayApiService.resetPage();
@@ -48,6 +49,10 @@ function onSearch(e) {
         refs.loadMoreBtn.classList.add('is-hidden');
       }
     });
+  } else {
+    return Notify.failure(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
   }
 }
 
