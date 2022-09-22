@@ -19,18 +19,37 @@ ul {
 }
 
 img {
+  position: relative;
   display: block;
   width: 100%;
-  height: 280px;
+  height: 300px;
+
+  border-radius: 10px;
+  transition-property: transform;
+  transition-duration: 250ms;
+}
+
+img:hover {
+  transform: scale(1.03);
 }
 
 .header {
   position: sticky;
+  z-index: 10;
   top: 0;
   padding: 10px 0;
-  background-color: rgb(231, 245, 219);
+  background-color: rgba(231, 245, 219, 70%);
+  transition-property: background-color;
+  transition-duration: 250ms;
 }
 
+.header:hover {
+  background-color: rgba(231, 245, 219, 95%);
+}
+
+.header__link {
+  text-decoration: none;
+}
 .search-form {
   display: flex;
   justify-content: center;
@@ -66,12 +85,21 @@ img {
   gap: 20px;
 }
 
-.gallery__photo-card {
+.gallery__item {
   flex-basis: calc(25% - 15px);
 }
 
 .gallery__info {
   display: flex;
-  padding: 10px 0;
+  padding: 10px 10px;
   justify-content: space-between;
+}
+
+b,
+span {
+  display: block;
+  text-align: center;
+}
+span {
+  font-weight: 500;
 }

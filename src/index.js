@@ -84,20 +84,20 @@ function markUp(data) {
         comments,
         downloads,
       }) => {
-        return `<div class="gallery__photo-card">
+        return `<div class="gallery__item">
   <img src="${webformatURL}" alt="${tags}" loading="lazy class="gallery__image" />
   <div class="gallery__info">
     <p class="gallery__info-item">
-      <b>Likes: ${likes}</b>
+      <b>Likes<span>${likes}</span></b>
     </p>
     <p class="gallery__info-item">
-      <b>Views: ${views}</b>
+      <b>Views<span>${views}</span></b>
     </p>
     <p class="gallery__info-item">
-      <b>Comments: ${comments}</b>
+      <b>Comments<span>${comments}</span></b>
     </p>
     <p class="gallery__info-item">
-      <b>Downloads: ${downloads}</b>
+      <b>Downloads<span>${downloads}</span></b>
     </p>
   </div>
   </div>`;
