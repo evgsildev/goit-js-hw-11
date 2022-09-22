@@ -8,7 +8,6 @@ import PixabayApiService from './js/api-service';
 const pixabayApiService = new PixabayApiService();
 
 const refs = {
-  header: document.querySelector('.header'),
   searchForm: document.querySelector('.search-form'),
   galleryContainer: document.querySelector('.gallery'),
   loadMoreBtn: document.querySelector('.load-more'),
@@ -23,8 +22,6 @@ function onSearch(e) {
   e.preventDefault();
 
   refs.loadMoreBtn.disabled = true;
-
-  setColor();
 
   pixabayApiService.query = e.currentTarget.elements.searchQuery.value.trim();
 
@@ -44,7 +41,7 @@ function onSearch(e) {
         refs.loadMoreBtn.disabled = false;
       }
 
-      if (data.totalHits < 40) {
+      if (data.totalHits <= 40) {
         Notify.failure(
           "We're sorry, but you've reached the end of search results."
         );
@@ -55,7 +52,6 @@ function onSearch(e) {
 }
 
 function onLoadMore() {
-  setColor();
   refs.loadMoreBtn.disabled = true;
 
   pixabayApiService.incrementPage();
@@ -112,9 +108,9 @@ function clearGalleryContainer() {
 function quantityControl(data) {
   const pages = pixabayApiService.getPage();
   const perPage = pixabayApiService.getPerPage();
-  const imagesLeft = data.totalHits - perPage * (pages - 1);
+  const imagesLeft = data.totalHits - perPage * pages;
 
-  if (imagesLeft > 40) {
+  if (imagesLeft >= 0) {
     Notify.success(`${imagesLeft} images left`);
   } else {
     refs.loadMoreBtn.classList.add('is-hidden');
@@ -122,12 +118,4 @@ function quantityControl(data) {
       "We're sorry, but you've reached the end of search results."
     );
   }
-}
-
-function getRandomHexColor() {
-  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-}
-
-function setColor() {
-  refs.header.style.backgroundColor = getRandomHexColor();
 }
