@@ -1,6 +1,9 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
 import axios from 'axios';
-import SimpleLightbox from 'simplelightbox/dist/simple-lightbox.esm';
+
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import PixabayApiService from './js/api-service';
 
@@ -81,7 +84,7 @@ function markUp(data) {
       <b>Downloads: ${downloads}</b>
     </p>
   </div>
-</div>`;
+  </div>`;
       }
     )
     .join('');
