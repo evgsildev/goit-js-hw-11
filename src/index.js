@@ -1,7 +1,5 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-import axios from 'axios';
-
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
@@ -36,8 +34,17 @@ function onSearch(e) {
       } else {
         clearGalleryContainer();
         getCard(data);
+        Notify.success(`We have ${data.totalHits} images`);
+
         refs.loadMoreBtn.classList.remove('is-hidden');
         refs.loadMoreBtn.disabled = false;
+      }
+
+      if (data.totalHits < 40) {
+        Notify.failure(
+          "We're sorry, but you've reached the end of search results."
+        );
+        refs.loadMoreBtn.classList.add('is-hidden');
       }
     });
   }
@@ -46,9 +53,12 @@ function onSearch(e) {
 function onLoadMore() {
   refs.loadMoreBtn.disabled = true;
 
+  pixabayApiService.incrementPage();
+
   pixabayApiService.fetchArticles().then(data => {
     getCard(data);
     refs.loadMoreBtn.disabled = false;
+    quantityControl(data);
   });
 }
 
@@ -92,4 +102,19 @@ function markUp(data) {
 
 function clearGalleryContainer() {
   refs.galleryContainer.innerHTML = '';
+}
+
+function quantityControl(data) {
+  const pages = pixabayApiService.getPage();
+  const perPage = pixabayApiService.getPerPage();
+  const imagesLeft = data.totalHits - perPage * (pages - 1);
+
+  if (imagesLeft > 40) {
+    Notify.success(`${imagesLeft} images left`);
+  } else {
+    refs.loadMoreBtn.classList.add('is-hidden');
+    Notify.failure(
+      "We're sorry, but you've reached the end of search results."
+    );
+  }
 }
