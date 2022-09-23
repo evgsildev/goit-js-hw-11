@@ -21,7 +21,9 @@ refs.loadMoreBtn.addEventListener('click', onLoadMore);
 function onSearch(e) {
   e.preventDefault();
 
-  refs.loadMoreBtn.disabled = true;
+  refs.loadMoreBtn.classList.add('is-hidden');
+
+  clearGalleryContainer();
 
   pixabayApiService.query = e.currentTarget.elements.searchQuery.value.trim();
   e.currentTarget.elements.searchQuery.value = '';
@@ -34,7 +36,6 @@ function onSearch(e) {
           'Sorry, there are no images matching your search query. Please try again.'
         );
       } else {
-        clearGalleryContainer();
         getCard(data);
         Notify.success(`We have ${data.totalHits} images`);
 
@@ -50,7 +51,9 @@ function onSearch(e) {
       }
     });
   } else {
-    return Notify.failure(
+    clearGalleryContainer();
+    refs.loadMoreBtn.classList.add('is-hidden');
+    Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
   }
